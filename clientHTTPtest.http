@@ -1,0 +1,13 @@
+http://localhost:3800/api/home
+
+###
+
+http://localhost:3800/api/pruebas
+
+###
+
+POST http://localhost:3800/api/register
+Content-Type: application/x-www-form-urlencoded
+
+name=Carmen&surname=Moreno&nick=Nena&email=cmcandau@hotmail.com&password=1049
+###
