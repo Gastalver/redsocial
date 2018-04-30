@@ -11,3 +11,50 @@ Content-Type: application/x-www-form-urlencoded
 
 name=Carmen&surname=Moreno&nick=Nena&email=cmcandau@hotmail.com&password=1049
 ###
+
+POST http://localhost:3800/api/login
+Content-Type: application/x-www-form-urlencoded
+
+email=cmcandau@hotmail.com&password=1049
+
+###
+
+POST http://localhost:3800/api/login
+Content-Type: application/x-www-form-urlencoded
+
+email=mgastalver@gmail.com&password=4651
+
+###
+
+POST http://localhost:3800/api/login
+Content-Type: application/x-www-form-urlencoded
+
+gettoken=true&email=mgastalver@gmail.com&password=4651
+
+###
+
+http://localhost:3800/api/pruebas
+Authorization: 'tokendepega'
+
+###
+
+http://localhost:3800/api/pruebas
+Authorization: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YWU3NDRlMjRkNjY0YjA1NDA4NjZiMzYiLCJuYW1lIjoiTWlndWVsIiwic3VybmFtZSI6Ikdhc3RhbHZlciIsIm5pY2siOiJDaGluZXNlIiwiZW1haWwiOiJtZ2FzdGFsdmVyQGdtYWlsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJpbWFnZSI6bnVsbCwiaWF0IjoxNTI1MTE1MDI4LCJleHAiOjE1Mjc3MDcwMjh9.LcjLAdVnvhA-HEPC5U8S4qrRDgFX6JN11jGZxut5xPo"
+
+###
+
+http://localhost:3800/api/user/5ae75264ca6fde093067aab4
+Authorization: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YWU3NDRlMjRkNjY0YjA1NDA4NjZiMzYiLCJuYW1lIjoiTWlndWVsIiwic3VybmFtZSI6Ikdhc3RhbHZlciIsIm5pY2siOiJDaGluZXNlIiwiZW1haWwiOiJtZ2FzdGFsdmVyQGdtYWlsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJpbWFnZSI6bnVsbCwiaWF0IjoxNTI1MTE1MDI4LCJleHAiOjE1Mjc3MDcwMjh9.LcjLAdVnvhA-HEPC5U8S4qrRDgFX6JN11jGZxut5xPo"
+
+###
+
+http://localhost:3800/api/user/5ae75264ca6fde093067aab
+Authorization: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YWU3NDRlMjRkNjY0YjA1NDA4NjZiMzYiLCJuYW1lIjoiTWlndWVsIiwic3VybmFtZSI6Ikdhc3RhbHZlciIsIm5pY2siOiJDaGluZXNlIiwiZW1haWwiOiJtZ2FzdGFsdmVyQGdtYWlsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJpbWFnZSI6bnVsbCwiaWF0IjoxNTI1MTE1MDI4LCJleHAiOjE1Mjc3MDcwMjh9.LcjLAdVnvhA-HEPC5U8S4qrRDgFX6JN11jGZxut5xPo"
+
+###
+
+
+http://localhost:3800/api/users/1
+Authorization: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YWU3NDRlMjRkNjY0YjA1NDA4NjZiMzYiLCJuYW1lIjoiTWlndWVsIiwic3VybmFtZSI6Ikdhc3RhbHZlciIsIm5pY2siOiJDaGluZXNlIiwiZW1haWwiOiJtZ2FzdGFsdmVyQGdtYWlsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJpbWFnZSI6bnVsbCwiaWF0IjoxNTI1MTE1MDI4LCJleHAiOjE1Mjc3MDcwMjh9.LcjLAdVnvhA-HEPC5U8S4qrRDgFX6JN11jGZxut5xPo"
+
+###

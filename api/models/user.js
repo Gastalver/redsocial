@@ -11,6 +11,7 @@ var UserSchema = Schema({
     role: String,
     image: String
 });
+
 // Sintaxis -exigida por mongoose- para exportar el modelo creado con el esquema y que esté disponible.
 module.exports = mongoose.model('User',UserSchema);
 

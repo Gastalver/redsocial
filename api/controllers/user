@@ -4,8 +4,14 @@
  */
 var bcrypt = require('bcrypt-nodejs'); // Para cifrar las contraseñas
 var User = require('../models/user');
+var jwt = require('../services/jwt');
+require('mongoose-pagination');
 
-
+/**
+ * Devuelve la página de inicio de la API
+ * @param req
+ * @param res
+ */
 function home(req,res){
     res.status(200).send(
         {
@@ -13,6 +19,11 @@ function home(req,res){
         }
     )};
 
+/**
+ * Prueba de rutas
+ * @param req
+ * @param res
+ */
 function pruebas(req,res){
     res.status(200).send(
         {
@@ -21,6 +32,11 @@ function pruebas(req,res){
     )
 }
 
+/**
+ * Crear nuevo usuario
+ * @param req
+ * @param res
+ */
 function saveUser(req,res){
     var params = req.body;
     var user = new User();
@@ -37,9 +53,9 @@ function saveUser(req,res){
                 {email: user.email.toLowerCase()},
                 {nick: user.nick.toLowerCase()}
                 ]}).exec((err,users)=>{
-                    if(err) return res.status(500).send({message:"Error en la petición de usuarios"});
+                    if(err) return res.status(500).send({message:'Error en la petición de usuarios'});
                     if(users && users.length >= 1){
-                        return res.status(200).send({message:"El usuario que intentas registrar ya existe"});
+                        return res.status(200).send({message:'El usuario que intentas registrar ya existe'});
                     } else {
                         //Cifrar password y guardar datos
                         bcrypt.hash(params.password,null,null,(err,hash)=>{
@@ -49,7 +65,7 @@ function saveUser(req,res){
                                 if (userStored){
                                     res.status(200).send({user: userStored});
                                 } else {
-                                    res.status(404).send({message: "No se ha registrado el usuario"});
+                                    res.status(404).send({message: 'No se ha registrado el usuario'});
                                 }
                             });
                         });
@@ -63,11 +79,85 @@ function saveUser(req,res){
         });
     }
 
+};
+
+/**
+ * Login de un Usuario
+ * @param req
+ * @param res
+ */
+function loginUser(req,res){
+    var params = req.body;
+    var email = params.email;
+    var password = params.password;
+    User.findOne({email: email},(err,user)=>{
+      if(err) return res.status(500).send({message:'Error en la petición'});
+      if(user){
+          bcrypt.compare(password,user.password,(err,check)=>{
+              if(check){
+
+                  if(params.gettoken){
+                      //Generar y Devolver token
+                      return res.status(200).send({
+                          token: jwt.createToken(user)
+                      });
+                  } else {
+                      //Devolver datos de usuario
+                      user.password = undefined; // Truco para "eliminar esa propiedad del objeto antes de devolverlo"
+                      return res.status(200).send({user})
+                  }
+
+              } else {
+                  return res.status(404).send({message:'El usuario no se ha podido identificar'});
+              }
+          })
+      } else {
+          return res.status(404).send({message:'¡¡El usuario no se ha podido identificar!!'});
+      }
+    });
+}
+
+/**
+ * Conseguir datos de un usuario
+ */
+function getUser(req,res){
+    var userId = req.params.id;
+    User.findById(userId, (err,user)=>{
+        if(err) return res.status(500).send({message:'Error en la petición'});
+        if(!user) return res.status(404).send({message:'EL usuario no existe'});
+        return res.status(200).send({user});
+    })
+}
+
+/**
+ * Devuelve un listado de usuarios paginado
+ * @param req
+ * @param res
+ */
+function getUsers(req,res){
+    var identity_user_id = req.user.sub;
+    var page = 1;
+    if(req.params.page){
+        page = req.params.page;
+    }
+    var itemsPerPage = 5;
+    User.find().sort('_id').paginate(page,itemsPerPage,(err,users,total)=>{
+        if(err) return res.status(500).send({message:'Error en la petición'});
+        if(!users) return res.status(404).send({message: 'No hay usuarios disponibles'});
+        return res.status(200).send({
+            users,  // Es lo mismo que users:users
+            total,  // Es lo mismo que total:total
+            pages: Math.ceil((total/itemsPerPage))
+        });
+    });
 }
 
 
 module.exports = {
     home,
     pruebas,
-    saveUser
+    saveUser,
+    loginUser,
+    getUser,
+    getUsers
 }
