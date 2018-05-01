@@ -15,7 +15,7 @@ name=Carmen&surname=Moreno&nick=Nena&email=cmcandau@hotmail.com&password=1049
 POST http://localhost:3800/api/login
 Content-Type: application/x-www-form-urlencoded
 
-email=cmcandau@hotmail.com&password=1049
+gettoken=true&email=cmcandau@hotmail.com&password=1049
 
 ###
 
@@ -58,3 +58,21 @@ http://localhost:3800/api/users/1
 Authorization: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YWU3NDRlMjRkNjY0YjA1NDA4NjZiMzYiLCJuYW1lIjoiTWlndWVsIiwic3VybmFtZSI6Ikdhc3RhbHZlciIsIm5pY2siOiJDaGluZXNlIiwiZW1haWwiOiJtZ2FzdGFsdmVyQGdtYWlsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJpbWFnZSI6bnVsbCwiaWF0IjoxNTI1MTE1MDI4LCJleHAiOjE1Mjc3MDcwMjh9.LcjLAdVnvhA-HEPC5U8S4qrRDgFX6JN11jGZxut5xPo"
 
 ###
+
+PUT http://localhost:3800/api/update-user/5ae75264ca6fde093067aab4
+Authorization: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YWU3NTI2NGNhNmZkZTA5MzA2N2FhYjQiLCJuYW1lIjoiQ2FybWVuIiwic3VybmFtZSI6Ik1vcmVubyIsIm5pY2siOiJuZW5hIiwiZW1haWwiOiJjbWNhbmRhdUBob3RtYWlsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJpbWFnZSI6bnVsbCwiaWF0IjoxNTI1MTMzOTA5LCJleHAiOjE1Mjc3MjU5MDl9.0vc2XV-UU0TzqefkjnFN99GnbWBzVHE4H5ol7TKjCHg"
+Content-Type: application/x-www-form-urlencoded
+
+nick=Nena
+###
+
+POST http://localhost:3800/api/upload-image-user/5ae744e24d664b0540866b36
+Content-Type: form-data
+Authorization: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YWU3NDRlMjRkNjY0YjA1NDA4NjZiMzYiLCJuYW1lIjoiTWlndWVsIiwic3VybmFtZSI6Ikdhc3RhbHZlciIsIm5pY2siOiJDaGluZXNlIiwiZW1haWwiOiJtZ2FzdGFsdmVyQGdtYWlsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJpbWFnZSI6bnVsbCwiaWF0IjoxNTI1MTM2MzAzLCJleHAiOjE1Mjc3MjgzMDN9.ibOS_ikfpVeVK_Kjc6jyswl5U5Y05KkvpdI7Foeg9yo"
+
+< C:\Users\Miguel\Pictures\avion.jpg
+
+
+###
+
+
