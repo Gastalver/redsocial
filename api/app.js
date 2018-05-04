@@ -6,6 +6,7 @@ var app = express();
 
 // cargar rutas
 var user_routes = require('./routes/user');
+var follow_routes = require('./routes/follow');
 
 // middleware
     // exigido por bodyparser
@@ -17,6 +18,7 @@ var user_routes = require('./routes/user');
 
 // rutas
 app.use('/api', user_routes);
+app.use('/api', follow_routes);
 
 
 //exportar
