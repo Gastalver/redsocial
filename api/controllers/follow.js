@@ -70,7 +70,7 @@ function getFollowingUsers(req,res){
 
     var itemsPerPage = 2;
 
-    Follow.find({user: userId}).populate({path:'followed'}).paginate(page,itemsPerPage,(err,follows,total)=>{
+    Follow.find({user: userId}).populate({'user followed'}).paginate(page,itemsPerPage,(err,follows,total)=>{
         if (err) return res.status(500).send({message:'Error en el servidor.'});
         if (!follows) return res.status(404).send({message:'No estás siguiendo a ningún usuario'});
         return res.status(200).send({
