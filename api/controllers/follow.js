@@ -68,7 +68,7 @@ function getFollowingUsers(req,res){
         page = req.params.page; // TODO Resolver problema de que sólo se indique página pero no :id
     }
 
-    var itemsPerPage = 2;
+    var itemsPerPage = 4;
 
     Follow.find({user: userId}).populate({path: 'followed'}).paginate(page,itemsPerPage,(err,follows,total)=>{
         if (err) return res.status(500).send({message:'Error en el servidor.'});

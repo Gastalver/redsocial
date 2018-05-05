@@ -121,7 +121,7 @@ function loginUser(req,res){
 }
 
 /**
- * Devuelve datos de usuario, si lo sigue el usuario logueado y si sigue a usuario logueado
+ * Devuelve datos de usuario, si lo sigue el usuario logueado (following) y si sigue a usuario logueado (followe)
  * @param req
  * @param res
  */
@@ -132,8 +132,13 @@ function getUser(req,res) {
         if (!user) return res.status(404).send({message: 'El usuario no existe'});
 
         followThisUser(req.user.sub, userId).then((value) => {
-            console.log (value) ;
-            return res.status(200).send({user, value});
+
+            return res.status(200).send(
+                {
+                    user,
+                    following: value.following,
+                    followed: value.followed
+                });
         });
     });
 }
@@ -145,18 +150,38 @@ function getUser(req,res) {
  * @returns {Promise<{following: *, followed: *}>}
  */
 async function followThisUser(identity_user_id, user_id){
-    var following = await Follow.findOne({"user": identity_user_id, "followed":user_id}).exec((err,follow)=>{
-        if(err) return handleError(err); // Método dde Gestión errores node por consola.
-        return follow;
-    });
 
-    var followed = await Follow.find({"user": user_id, "followed": identity_user_id}).exec((err,follow)=>{
-        if(err) return handleError(err); // Método dde Gestión errores node por consola.
-        return follow;
-    });
-    return {
-        following: following,
-        followed: followed
+    try{
+        var following = await Follow.findOne({"user": identity_user_id, "followed":user_id})
+            //.populate('user')
+            .exec()
+            .then(
+                function rejected(err){
+                    return err; // TODO Este error no está bien gestionado?.
+                },
+                function fulfilled(resultado_following){
+                    return (resultado_following);
+                }
+            );
+
+        var followed = await Follow.findOne({"user": user_id, "followed": identity_user_id})
+            //.populate('followed')
+            .exec()
+            .then(
+                function rejected(err){
+                    return err; // TODO Este error no está bien gestionado?
+                },
+                function fulfilled(resultado_followed){
+                    return (resultado_following);
+                }
+            );
+
+        return {
+            following: following,
+            followed: followed
+        }
+    }catch(e){
+        return handleError(e);
     }
 }
 
