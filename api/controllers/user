@@ -132,7 +132,7 @@ function getUser(req,res) {
         if (!user) return res.status(404).send({message: 'El usuario no existe'});
 
         followThisUser(req.user.sub, userId).then((value) => {
-
+            user.password = undefined;
             return res.status(200).send(
                 {
                     user,
