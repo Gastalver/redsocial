@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 // Para crear los modelos hay que usar el módulo mongoose.
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;

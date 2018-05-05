@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
 //var path = require('path');
 //var fs = require('fs');
-var mongoosePaginate = require('mongoose-pagination');
+require('mongoose-pagination');
 
 var User = require('../models/user');
 var Follow = require('../models/follow');
@@ -137,4 +137,4 @@ module.exports = {
     getFollowingUsers,
     getFollowedUsers,
     getMyFollows
-}
+};

@@ -20,8 +20,8 @@ function home(req,res){
         {
             message: 'Hola mundo'
         }
-    )};
-
+    )
+}
 /**
  * Prueba de rutas
  * @param req
@@ -45,11 +45,11 @@ function saveUser(req,res){
     var user = new User();
     if(params.name && params.surname &&
        params.nick && params.email && params.password){
-        user.name = params.name,
-        user.surname = params.surname,
-        user.nick = params.nick.toLowerCase(),
-        user.email = params.email.toLowerCase(),
-        user.role = 'ROLE_USER',
+        user.name = params.name;
+        user.surname = params.surname;
+        user.nick = params.nick.toLowerCase();
+        user.email = params.email.toLowerCase();
+        user.role = 'ROLE_USER';
         user.image = null;
         // Comprobar su el usuario o el nick ya existe
         User.find({$or: [
@@ -82,8 +82,7 @@ function saveUser(req,res){
         });
     }
 
-};
-
+}
 /**
  * Login de un Usuario
  * @param req
@@ -131,7 +130,8 @@ function getUser(req,res) {
         if (err) return res.status(500).send({message: 'Error en la petición'});
         if (!user) return res.status(404).send({message: 'El usuario no existe'});
 
-        followThisUser(req.user.sub, userId).then((value) => {
+        followThisUser(req.user.sub, userId)
+            .then((value) => {
             user.password = undefined;
             return res.status(200).send(
                 {
@@ -139,7 +139,10 @@ function getUser(req,res) {
                     following: value.following,
                     followed: value.followed
                 });
-        });
+            })
+            .catch((err)=>{
+            return res.status(500).send({"message": "Error."})
+            });
     });
 }
 
@@ -152,36 +155,24 @@ function getUser(req,res) {
 async function followThisUser(identity_user_id, user_id){
 
     try{
-        var following = await Follow.findOne({"user": identity_user_id, "followed":user_id})
+        var following = Follow.findOne({"user": identity_user_id, "followed":user_id})
             //.populate('user')
             .exec()
-            .then(
-                function rejected(err){
-                    return err; // TODO Este error no está bien gestionado?.
-                },
-                function fulfilled(resultado_following){
-                    return (resultado_following);
-                }
-            );
+            .then((resultado)=>{return resultado;});
 
-        var followed = await Follow.findOne({"user": user_id, "followed": identity_user_id})
+        var followed = Follow.findOne({"user": user_id, "followed": identity_user_id})
             //.populate('followed')
             .exec()
-            .then(
-                function rejected(err){
-                    return err; // TODO Este error no está bien gestionado?
-                },
-                function fulfilled(resultado_followed){
-                    return (resultado_following);
-                }
+            .then((resultado)=>{return resultado;}
             );
 
         return {
-            following: following,
-            followed: followed
+            following: await following,
+            followed: await followed
         }
-    }catch(e){
-        return handleError(e);
+
+    }catch(error){
+        throw new Error(error);
     }
 }
 
@@ -198,16 +189,69 @@ function getUsers(req,res){
         page = req.params.page;
     }
     var itemsPerPage = 5;
-    User.find().sort('_id').paginate(page,itemsPerPage,(err,users,total)=>{
-        if(err) return res.status(500).send({message:'Error en la petición'});
-        if(!users) return res.status(404).send({message: 'No hay usuarios disponibles'});
-        return res.status(200).send({
-            users,  // Es lo mismo que users:users
-            total,  // Es lo mismo que total:total
-            pages: Math.ceil((total/itemsPerPage))
+    User.find()
+        .sort('_id')
+        .paginate(page,itemsPerPage,(err,users,total)=>{
+            if(err) return res.status(500).send({message:'Error en la petición'});
+            if(!users) return res.status(404).send({message: 'No hay usuarios disponibles'});
+            followUserIds(identity_user_id)
+                .then((value)=> {
+                    return res.status(200).send({
+                        users,  // Es lo mismo que users:users
+                        users_following: value.following,
+                        users_follow_me: value.followed,
+                        total,  // Es lo mismo que total:total
+                        pages: Math.ceil((total / itemsPerPage))
+                    });
+                })
+                .catch((err)=>{
+                    return res.status(500).send({"message": 'Error del servidor.'});
+                });
         });
-    });
 }
+
+/**
+ * Devuelve arrays con ids de usuarios que sigue un user y otro array con ids de usuarios que siguen a ese user.
+ * @param user_id
+ * @returns {Promise<{following: Array, followed: Array}>}
+ */
+async function followUserIds(user_id){
+    try{
+        // Al esperar a que se complete cada promesa estamos trabajando EN SERIE.
+        // ver patrón EN PARELELO en getCountFollow().
+
+        var following = await Follow.find({"user": user_id})
+            .select({"_id":0, "__v":0, "user": 0})
+            .exec()
+            .then((follows)=>{return follows;});
+
+        var followed = await Follow.find({"followed": user_id})
+            .select({"_id":0, "__v":0, "followed": 0})
+            .exec()
+            .then((follows)=>{return follows;});
+
+        // Procesamos array para quedarnos sólo con los valores de la propiedad followed.
+        var follows_clean = [];
+        following.forEach((follow)=>{
+            follows_clean.push(follow.followed);
+        });
+
+        // Procesamos array para quedarnos sólo con los valores de la propiedad user.
+        var followed_clean = [];
+        followed.forEach((follow)=>{
+            followed_clean.push(follow.user);
+        });
+
+        return {
+            following: follows_clean,
+            followed: followed_clean
+        }
+
+    }catch(err){
+         throw new Error(err);  // Lanza un error que crea una excepción.
+    }
+}
+
 
 /**
  * Actualizar datos de usuario
@@ -219,7 +263,7 @@ function updateUsers(req,res){
     var update = req.body;
     // borramos la propiedad password
     delete update.password;
-    if(userId != req.user.sub){
+    if(userId !== req.user.sub){
         return res.status(500).send({message:'No tienes permisos para actualizar los datos del usuario.'});
     }
     User.findByIdAndUpdate(userId, update,{new:true},(err,userUpdated)=>{
@@ -284,7 +328,7 @@ function uploadImage(req,res){
  */
 function removeFilesOfUploads(res,file_path,message){
     fs.unlink(file_path, (err)=> {
-        return res.status(200).send({message: message});  // TODO ¿Es adecuado devolver un codigo 200 siempre?
+        return res.status(200).send({message: message});
     });
 }
 
@@ -301,6 +345,48 @@ function getImageFile(req,res){
 }
 
 
+function getCounters(req,res) {
+    var userId = req.user.sub;
+    if (req.params.id) {
+        getCountFollow(req.params.id).then((value) => {
+            return res.status(200).send(value);
+        });
+    } else {
+        getCountFollow(userId).then((value) => {
+            return res.status(200).send(value);
+        });
+    }
+}
+
+/**
+ * Devuelve cuenta de followings y de followed del user_id
+ * Obsérvese patrón de tareas asíncronas en parelelo con async/await
+ * y captura de errores (con contexto) con try/catch
+ * @param user_id
+ * @returns {Promise<{following: *, followed: *}>}
+ */
+async function getCountFollow(user_id){
+    try{
+        const following =Follow.count({"user": user_id}).exec()
+            .then(
+                (resultado)=> {return resultado},
+                (error)=> { return error});
+
+        const followed = Follow.count({"followed": user_id}).exec()
+            .then(
+                (resultado)=> {return resultado},
+                (error)=> { return error});
+
+        return {
+            following: await following,
+            followed: await followed
+        }
+    } catch(error)
+        {
+            throw new Error(error);
+    }
+}
+
 module.exports = {
     home,
     pruebas,
@@ -310,5 +396,6 @@ module.exports = {
     getUsers,
     updateUsers,
     uploadImage,
-    getImageFile
-}
+    getImageFile,
+    getCounters
+};
