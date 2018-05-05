@@ -38,6 +38,20 @@ Authorization: 'tokendepega'
 
 ###
 
+POST /api/upload-image-user/5ae744e24d664b0540866b36 HTTP/1.1
+Host: localhost:3800
+Authorization:  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YWU3NDRlMjRkNjY0YjA1NDA4NjZiMzYiLCJuYW1lIjoiTWlndWVsIiwic3VybmFtZSI6Ikdhc3RhbHZlciIsIm5pY2siOiJDaGluZXNlIiwiZW1haWwiOiJtZ2FzdGFsdmVyQGdtYWlsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJpbWFnZSI6bnVsbCwiaWF0IjoxNTI1NDUwMTQ3LCJleHAiOjE1MjgwNDIxNDd9.whx9rVKovEsrNT2Wh1-Ki48peGU_ZsGBK8BQOeUrrzQ"
+Cache-Control: no-cache
+Postman-Token: e6b7e3b3-1882-4d20-8a4f-8c9c027d6ae4
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename=""
+Content-Type:
+
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
 http://localhost:3800/api/pruebas
 Authorization: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YWU3NDRlMjRkNjY0YjA1NDA4NjZiMzYiLCJuYW1lIjoiTWlndWVsIiwic3VybmFtZSI6Ikdhc3RhbHZlciIsIm5pY2siOiJDaGluZXNlIiwiZW1haWwiOiJtZ2FzdGFsdmVyQGdtYWlsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJpbWFnZSI6bnVsbCwiaWF0IjoxNTI1MTE1MDI4LCJleHAiOjE1Mjc3MDcwMjh9.LcjLAdVnvhA-HEPC5U8S4qrRDgFX6JN11jGZxut5xPo"
 
@@ -75,4 +89,18 @@ Authorization: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YWU3NDRlMjRkNjY
 
 ###
 
+POST /api/upload-image-user/5ae744e24d664b0540866b36 HTTP/1.1
+Host: localhost:3800
+Authorization:  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YWU3NDRlMjRkNjY0YjA1NDA4NjZiMzYiLCJuYW1lIjoiTWlndWVsIiwic3VybmFtZSI6Ikdhc3RhbHZlciIsIm5pY2siOiJDaGluZXNlIiwiZW1haWwiOiJtZ2FzdGFsdmVyQGdtYWlsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJpbWFnZSI6bnVsbCwiaWF0IjoxNTI1NDUwMTQ3LCJleHAiOjE1MjgwNDIxNDd9.whx9rVKovEsrNT2Wh1-Ki48peGU_ZsGBK8BQOeUrrzQ"
+Cache-Control: no-cache
+Postman-Token: 09fbe57f-94cc-4d8e-9f91-f40a126b9f56
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="gorila.jpg"
+Content-Type: image/jpeg
+
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
