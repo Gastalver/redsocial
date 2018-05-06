@@ -7,6 +7,7 @@ var MessageSchema = Schema({
     receiver: { type: Schema.ObjectId, ref: 'User'},
     text: String,
     created_at: String,
+    viewed: String
 });
 // Sintaxis -exigida por mongoose- para exportar el modelo creado con el esquema y que esté disponible.
 module.exports = mongoose.model('Message',MessageSchema);

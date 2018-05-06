@@ -5,6 +5,7 @@
 var bcrypt = require('bcrypt-nodejs'); // Para cifrar las contraseñas
 var User = require('../models/user');
 var Follow = require('../models/follow');
+var Publication = require('../models/publication');
 var jwt = require('../services/jwt');
 require('mongoose-pagination');
 var fs = require('fs'); // Para trabajar con ficheros.
@@ -332,6 +333,11 @@ function removeFilesOfUploads(res,file_path,message){
     });
 }
 
+/**
+ * Obtiene una imagen por su id.
+ * @param req
+ * @param res
+ */
 function getImageFile(req,res){
     var image_file = req.params.imageFile;
     var path_file = './uploads/users/' + image_file;
@@ -344,7 +350,11 @@ function getImageFile(req,res){
     })
 }
 
-
+/**
+ * Obtiene el número de seguidos y de seguidores de un usuario por su id.
+ * @param req
+ * @param res
+ */
 function getCounters(req,res) {
     var userId = req.user.sub;
     if (req.params.id) {
@@ -359,7 +369,7 @@ function getCounters(req,res) {
 }
 
 /**
- * Devuelve cuenta de followings y de followed del user_id
+ * Devuelve cuenta de followings y de followed y de publicaciones del user_id
  * Obsérvese patrón de tareas asíncronas en parelelo con async/await
  * y captura de errores (con contexto) con try/catch
  * @param user_id
@@ -377,9 +387,15 @@ async function getCountFollow(user_id){
                 (resultado)=> {return resultado},
                 (error)=> { return error});
 
+        const publications = Publication.count({"user": user_id}).exec()
+            .then(
+                (resultado)=> {return resultado},
+                (error)=> {return error});
+
         return {
             following: await following,
-            followed: await followed
+            followed: await followed,
+            publications: await publications
         }
     } catch(error)
         {
