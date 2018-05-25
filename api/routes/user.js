@@ -16,7 +16,7 @@ api.get('/home',UserController.home);
 api.get('/pruebas', md_auth.ensureAuth,UserController.pruebas);
 api.get('/user/:id',md_auth.ensureAuth,UserController.getUser);
 api.get('/users/:page?',md_auth.ensureAuth,UserController.getUsers);
-api.get('/get-image-user/:imageFile',md_auth.ensureAuth, UserController.getImageFile); // Más rápido sin autenticación
+api.get('/get-image-user/:imageFile', UserController.getImageFile); // Más rápido sin autenticación
 api.get('/counters/:id?',md_auth.ensureAuth, UserController.getCounters);
 api.post('/register',UserController.saveUser);
 api.post('/login',UserController.loginUser);

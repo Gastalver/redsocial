@@ -302,8 +302,7 @@ function updateUsers(req,res){
  */
 function uploadImage(req,res){
     var userId = req.params.id;
-
-    if(req.files){
+    if( req.files ){
         // Extraemos la dirección donde va a ser alojado el archivo - generada por connect-multipart
         var file_path = req.files.image.path;
         // -> Algo así como /uploads/users/nombrearchivogeneradopormultilpart.jpg
@@ -336,7 +335,7 @@ function uploadImage(req,res){
 
 
     } else {
-        return res.status(200).send({message:'No se han subido imágenes.'}); //TODO Comprobar que (if req.files) detecta si no se manda archivo.
+        return res.status(200).send({message:'No se han subido imágenes.'});
     }
 }
 
