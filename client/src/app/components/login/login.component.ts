@@ -54,7 +54,6 @@ export class LoginComponent implements OnInit {
           this.mensaje = "No ha sido posible cargar los datos de usuario."
           loginForm.reset();
         }else {
-          this.status = 'success';
           // PERSISTIR DATOS DE USUARIO
           localStorage.setItem('identity',JSON.stringify(this.identity));
           // CONSEGUIR EL TOKEN
@@ -82,13 +81,11 @@ gettoken(){
         this.status = 'error bajo control';
         this.mensaje = "No se ha recibido el token de usuario."
       }else {
-        this.status = 'sucess';
         // PERSISTIR TOKEN DE USUARIO
         localStorage.setItem('token',this.token);
         // Conseguir los contadores o estadísticas del usuario (cfr.api)
+        this.getCounters()
 
-        // Redirigir a Home
-        this._router.navigate(['/home']);
       }
 
 
@@ -104,6 +101,21 @@ gettoken(){
       }
     }
   )
+}
+
+getCounters(){
+    this._userService.getCounters().subscribe(
+      (response)=>{
+        // Persistir Estadísticas
+        localStorage.setItem('stats', JSON.stringify(response));
+        this.status='success'
+        // Redirigir a Home
+        this._router.navigate(['/home']);
+      },
+      (error)=>{
+        console.log(error)
+      }
+    )
 }
 
 }
