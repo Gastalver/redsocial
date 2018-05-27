@@ -77,7 +77,8 @@ function getPublications(req,res){
                         total_items: total,
                         publications,
                         pages: Math.ceil(total/itemsPerPage),
-                        page:page
+                        page:page,
+                        items_per_page: itemsPerPage
                     })
 
                 });

@@ -17,6 +17,7 @@ export class SidebarComponent implements OnInit {
   public url;
   public status;
   public publication:Publication;
+  public mensaje:string;
 
   constructor(
     private _userService:UserService,
@@ -27,16 +28,39 @@ export class SidebarComponent implements OnInit {
     this.stats = this._userService.getStats();
     console.log(this.stats)
     this.url = GLOBAL.url;
-    this.publication = new Publication('','','','',this.identity._id)
+    this.publication = new Publication('','','','',this.identity._id);
+    this.mensaje = '';
   }
 
-  ngOnInit() {
+  ngOnInit(){
     console.log(this.token)
     console.log(this.stats)
   }
 
-  onSubmit(){
+  onSubmit(form){
     console.log(this.publication);
-    this._publicationService.addPublication(this.token,this.publication)
+    this._publicationService.addPublication(this.token,this.publication).subscribe(
+      (response)=>{
+        if (response.publication){
+          // this.publication = response.publication;
+          this.status = 'success'
+          form.reset();
+        }else{
+          this.status = 'error bajo control'
+        }
+      },
+      (error)=>{
+        var errorMessage = <any>error;
+        console.log(errorMessage)
+        if (errorMessage!=null){
+          this.status = 'error bajo control';
+          this.mensaje = errorMessage;
+        }
+      }
+    )
   }
+
+
+
+
 }

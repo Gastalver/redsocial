@@ -72,7 +72,8 @@ width: 38px;
 
 /*GENTE*/
 
-.item-user .image-user {
+.item-user .image-user,
+.item-publication .image-user{
   width: 75px;
   height: 75px;
   border-radius: 100px;
@@ -80,11 +81,13 @@ width: 38px;
   margin-right: 15px;
 }
 
-.item-user .image-user img {
+.item-user .image-user img,
+.item-publication .image-user img{
   width: 120px;
 }
 
-.item-user .user-name {
+.item-user .user-name,
+.item-publication .user-name{
   margin-top: 13px;
 }
 
@@ -193,3 +196,5 @@ width: 38px;
 #publications{
   min-height: 500px;
 }
+
+

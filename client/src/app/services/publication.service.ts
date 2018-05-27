@@ -14,11 +14,25 @@ export class PublicationService {
   ) {
     this.url=GLOBAL.url;
   }
-  addPublication(token,publication){
+  addPublication(token,publication): Observable<any>{
     let params = JSON.stringify(publication);
     let headers = new HttpHeaders()
       .set('Content-Type','application/json')
       .set('Authorization',token);
     return this._http.post(this.url+'publication',params,{headers:headers})
+  }
+
+  getPublications(token,page = 1): Observable<any>{
+    let headers = new HttpHeaders()
+      .set('Content-Type','application/json')
+      .set('Authorization',token);
+    return this._http.get(this.url + 'publications/' + page, {headers: headers})
+  }
+
+  deletePublication(token,id) {
+    let headers =new HttpHeaders()
+      .set('Content-Type','application/json')
+      .set('Authorization',token);
+    this._http.delete(this.url + 'publication/' + id, {headers:headers});
   }
 }
