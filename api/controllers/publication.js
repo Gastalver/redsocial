@@ -64,6 +64,7 @@ function getPublications(req,res){
             follows.forEach((follow)=>{
                 follows_clean.push(follow.followed);
             });
+            follows_clean.push(req.user.sub);
 
             Publication.find({user: {"$in": follows_clean}}) // userid = a alguno de los usersid contenidos en array follows_clean. Ahorra bucle.
                 .sort('created_at')
