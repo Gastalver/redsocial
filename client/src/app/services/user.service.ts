@@ -60,8 +60,8 @@ export class UserService {
       this.stats= stats;
     }else{
       this.stats=null;
-
     }
+    return this.stats;
   }
 
   getCounters(userId = null): Observable<any>{
