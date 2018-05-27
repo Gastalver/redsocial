@@ -51,7 +51,7 @@ export class TimelineComponent implements OnInit {
       (response)=>{
         console.log(response);
         if (response.publications){
-          this.publications = response.publications;
+          // this.publications = response.publications;
           this.total = response.total_items;
           this.pages = response.pages;
           this.itemsPerPage = response.items_per_page;
