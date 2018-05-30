@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {Router, ActivatedRoute} from "@angular/router";
 import {Publication} from "../../models/publication";
 import {GLOBAL} from "../../services/global";
 import {UserService} from "../../services/user.service";
 import {PublicationService} from "../../services/publication.service";
-import {Observable} from "rxjs/index";
 
 @Component({
-  selector: 'app-timeline',
-  templateUrl: './timeline.component.html',
+  selector: 'app-publications',
+  templateUrl: './publications.component.html',
   styles: [],
   providers:[UserService, PublicationService]
 })
-export class TimelineComponent implements OnInit {
+export class PublicationsComponent implements OnInit {
   public identity;
   public token;
   public title:string;
@@ -24,7 +23,8 @@ export class TimelineComponent implements OnInit {
   public total;
   public pages;
   public itemsPerPage;
-  public showImage;
+
+  @Input() user:string;  // El dato nos lo da el componente padre profile, desde su template.
 
   constructor(
     private _userService:UserService,
@@ -34,7 +34,7 @@ export class TimelineComponent implements OnInit {
   ) {
     this.identity=this._userService.getIdentity();
     this.token = this._userService.getToken();
-    this.title = "Timeline";
+    this.title = "Publications";
     this.url=GLOBAL.url;
     this.mensaje='';
     this.page = 1;
@@ -42,16 +42,17 @@ export class TimelineComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('timeline.component cargado correctamente.');
-    this.getPublications(this.page);
+    console.log('publications.component cargado correctamente.');
+    // console.log('Recibido el input id: ' + this.user);
+    this.getPublications(this.user, this.page);
   }
 
-  getPublications(page, adding = false){
-    console.log('getPublications.adding: ' + adding);
-    console.log('noMore: ' + this.noMore);
-    this._publicationService.getPublications(this.token, page).subscribe(
+  getPublications(user, page, adding = false){
+    // console.log('getPublications.adding: ' + adding);
+    // console.log('noMore: ' + this.noMore);
+    this._publicationService.getPublicationsUser(this.token, user, page).subscribe(
       (response)=>{
-        console.log(response);
+        // console.log(response);
         if (response.publications){
           // this.publications = response.publications;
           this.total = response.total_items;
@@ -93,38 +94,10 @@ export class TimelineComponent implements OnInit {
   public noMore = false;
 
   viewmore(){
-      this.page +=1;
-    if(this.page == this.pages){
+    this.page +=1;
+    if(this.page == (this.pages)){
       this.noMore = true;
-    }else{
     }
-    this.getPublications(this.page, true );
-  }
-
-  refresh(event=null){
-    console.log(event);
-    this.getPublications(1);
-
-  }
-
-  showThisImage(id){
-    this.showImage = id;
-    console.log('this.showImage=' + this.showImage);
-  }
-
-  hideThisImage(id){
-    this.showImage = 0;
-    console.log('this.showImage=' + this.showImage);
-  }
-
-  deletePublication(id){
-    this._publicationService.deletePublication(this.token,id).subscribe(
-      (response)=>{
-        this.refresh()
-      },
-      (error)=>{
-        console.log(<any>error);
-      }
-    )
+    this.getPublications(this.user, this.page, true );
   }
 }

@@ -26,7 +26,7 @@ export class AppComponent {
 }
   ngOnInit(){
     this.identity = this._userService.getIdentity();
-    console.log('AppComponent cargado con esta identidad: ' + JSON.stringify(this.identity));
+    // console.log('AppComponent cargado con esta identidad: ' + JSON.stringify(this.identity));
   }
 
   ngDoCheck(){

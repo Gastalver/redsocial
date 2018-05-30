@@ -10,7 +10,7 @@
   </div>
 
   <div class="name-surname pull-left">
-    <a href="#" class="user-name">
+    <a [routerLink]="['/perfil',identity._id]"class="user-name">
       {{identity.name + ' ' + identity.surname}}
     </a>
     <p class="nickname">{{identity.nick}}</p>
@@ -68,7 +68,7 @@
   <div class="alert alert-danger" *ngIf="status=='error bajo control'">
     {{mensaje}}
   </div>
-  <form #newPubForm="ngForm" (ngSubmit)="onSubmit(newPubForm)" class="col-md-10">
+  <form #newPubForm="ngForm" (ngSubmit)="onSubmit(newPubForm);sendPublication($event)" class="col-md-10">
     <p>
       <label>¿Qué estas pensando hoy?</label>
       <textarea name="text" #text="ngModel" [(ngModel)]="publication.text" class="form-control" required></textarea>
@@ -76,7 +76,7 @@
     </p>
     <p>
       <label>Sube tu foto</label>
-      <input type="file" placeholder="Subir imagen">
+      <input type="file" placeholder="Subir imagen" (change)="fileChangeEvent($event)">
     </p>
     <input type="submit" value="Enviar" class="btn btn-success" [disabled]="!newPubForm.valid">
   </form>

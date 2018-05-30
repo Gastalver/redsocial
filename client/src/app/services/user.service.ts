@@ -65,10 +65,11 @@ export class UserService {
   }
 
   getCounters(userId = null): Observable<any>{
+    console.log('user.service => getCounters(' + userId + ')');
     let headers = new HttpHeaders().set('Content-Type','application/json')
       .set('Authorization',this.getToken());
-    if( userId! = null ){
-      return this._http.get(this.url+'counters/'+userId, {headers:headers});
+    if(userId){ //OJO
+      return this._http.get(this.url+ 'counters/' + userId, {headers:headers});
     }else{
       return this._http.get(this.url+'counters',{headers:headers});
     }

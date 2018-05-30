@@ -1,5 +1,7 @@
 <div class="col-md-8">
-  <h1 class="h1-strong">{{title}}</h1>
+  <h1 class="h1-strong">{{title}}
+  <button class="btn btn-success  btn-sm" (click)="refresh($event)">Mostrar nuevas</button>
+  </h1>
   <div id="publications">
     <div *ngFor="let publication of publications" class="item-publication">
       <div class="panel panel-default">
@@ -11,18 +13,69 @@
               <img src="assets/nouserimg.png" class="avatar-default"  *ngIf="!publication.user.image"/>
             </a>
           </div>
-
-          <div class="user-name">
-            {{ publication.user.name + ' ' + publication.user.surname }}
+          <div>
+            <a [routerLink]="['/perfil',publication.user._id]" class="user-name">
+              {{ publication.user.name + ' ' + publication.user.surname }}
+            </a>
+            &nbsp;|&nbsp;
+            <span class="date">
+              {{publication.created_at | amFromUnix | amLocale: 'es'| amTimeAgo}}
+            </span>
           </div>
-        <h4 class="publication-text pull-left">
-          {{publication.text}}
-        </h4>
+          <h4 class="publication-text pull-left">
+            {{publication.text}}
+          </h4>
+
+          <div class="pull-right" *ngIf="publication.user._id === identity._id">
+            <!--<button   class="btn btn-danger pull-right" (click)="showThisImage(publication._id)" *ngIf="showImage != publication._id">-->
+              <!--<span class="glyphicon glyphicon-trash"></span>-->
+            <!--</button>-->
+            &nbsp;
+            <!--MODAL Boton para lanzarlo-->
+            <a href="#myModal{{publication._id}}" role="button" class="btn btn-large btn-danger" data-toggle="modal" *ngIf="showImage != publication._id">
+              <span class="glyphicon glyphicon-trash"></span>
+            </a>
+            &nbsp;
+            <!--MODAL HTML-->
+            <div id="myModal{{publication._id}}" class="modal fade">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Confirmación</h4>
+                  </div>
+                  <div class="modal-body">
+                    <p>¿Seguro que quieres borrar la publicación?</p>
+                    <p class="text-warning"><small>Si la eliminas no podrás recuperarla..</small></p>
+                    <p>{{publication.text}}</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-danger" (click)="deletePublication(publication._id)">Eliminar publicación</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="pull-right" *ngIf="publication.file != null">
+            <button class="btn btn-warning pull-right" (click)="showThisImage(publication._id)" *ngIf="showImage != publication._id">
+              <span class="glyphicon glyphicon-picture"></span>
+            </button>
+            <button class="btn btn-danger pull-right" (click)="hideThisImage(publication._id)" *ngIf="showImage == publication._id" >
+              <span class="glyphicon glyphicon-remove-circle" *ngIf="showImage!='publication._id'"></span>
+            </button>
+          </div>
+            <div class="col-md-12" *ngIf="publication.file !='null' && showImage == publication._id" >
+              <br>
+              <img class="col-md-12" src="{{url + 'get-image-pub/' + publication.file}}"/>
+            </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-md-12 text-center">
+  <div class="col-md-12 text-center" *ngIf="publications && publications.length">
     <p>
       <button class="btn btn-success" (click)="viewmore()" *ngIf="!noMore">
         Ver más publicaciones.
@@ -30,6 +83,7 @@
     </p>
 
   </div>
+
 </div>
-<app-sidebar></app-sidebar>
+<app-sidebar (sended)="refresh($event)"></app-sidebar>
 <div class="clearfix"></div>
