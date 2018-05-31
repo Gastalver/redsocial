@@ -105,6 +105,10 @@ width: 38px;
   width: 100% !important;
 }
 
+.people{
+  min-height: 500px;
+}
+
 /*SIDEBAR*/
 
 #user-card, #new-publication {
@@ -259,3 +263,4 @@ margin-bottom: 15px;
 #data-profile .publications {
   margin-top: 40px;
 }
+

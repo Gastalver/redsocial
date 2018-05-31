@@ -10,7 +10,7 @@
   </div>
 
   <div class="name-surname pull-left">
-    <a [routerLink]="['/perfil',identity._id]"class="user-name">
+    <a [routerLink]="['/perfil',identity._id]" class="user-name">
       {{identity.name + ' ' + identity.surname}}
     </a>
     <p class="nickname">{{identity.nick}}</p>
@@ -24,7 +24,7 @@
   <div class="stats" *ngIf="stats">
 
     <div class="following-data">
-      <a href="#">
+      <a [routerLink]="['/siguiendo',identity._id,1]">
         <span class="label-stats">
           Siguiendo
         </span>
@@ -35,7 +35,7 @@
     </div>
 
     <div class="following-data">
-      <a href="#">
+      <a [routerLink]="['/seguidores',identity._id,1]">
         <span class="label-stats">
           Seguidores
         </span>
@@ -46,7 +46,7 @@
     </div>
 
     <div class="following-data">
-      <a href="#">
+      <a [routerLink]="['/perfil',identity._id]" class="user-name">
         <span class="label-stats">
           Publicaciones
         </span>
@@ -68,7 +68,7 @@
   <div class="alert alert-danger" *ngIf="status=='error bajo control'">
     {{mensaje}}
   </div>
-  <form #newPubForm="ngForm" (ngSubmit)="onSubmit(newPubForm);sendPublication($event)" class="col-md-10">
+  <form #newPubForm="ngForm" (ngSubmit)="onSubmit(newPubForm,$event)" class="col-md-10">
     <p>
       <label>¿Qué estas pensando hoy?</label>
       <textarea name="text" #text="ngModel" [(ngModel)]="publication.text" class="form-control" required></textarea>

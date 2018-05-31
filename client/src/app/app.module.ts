@@ -21,6 +21,8 @@ import { TimelineComponent } from './components/timeline/timeline.component';
 import {from} from "rxjs/index";
 import { PublicationsComponent } from './components/publications/publications.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { FollowingComponent } from './components/following/following.component';
+import { FollowedComponent } from './components/followed/followed.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { ProfileComponent } from './components/profile/profile.component';
     SidebarComponent,
     TimelineComponent,
     PublicationsComponent,
-    ProfileComponent
+    ProfileComponent,
+    FollowingComponent,
+    FollowedComponent
   ],
   imports: [
     BrowserModule,

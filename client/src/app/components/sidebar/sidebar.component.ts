@@ -22,6 +22,9 @@ export class SidebarComponent implements OnInit {
   public publication:Publication;
   public mensaje:string;
 
+  //Output
+  @Output() sended = new EventEmitter();
+
   constructor(
     private _userService:UserService,
     private _publicationService: PublicationService,
@@ -50,7 +53,7 @@ export class SidebarComponent implements OnInit {
   }
 
 
-  onSubmit(form){
+  onSubmit(form,$event){
     // console.log(this.publication);
     this._publicationService.addPublication(this.token,this.publication).subscribe(
       (response)=>{
@@ -65,6 +68,7 @@ export class SidebarComponent implements OnInit {
                   this.status = 'success'
                   form.reset();
                   this._router.navigate(['/timeline']);
+                  this.sended.emit({send:'true'});
                 },
                 (error)=>{
                   console.log('Ha ocurrido un error al subir la imagen');
@@ -74,6 +78,7 @@ export class SidebarComponent implements OnInit {
             this.status = 'success'
             form.reset();
             this._router.navigate(['/timeline']);
+            this.sended.emit({send:'true'});
           }
         }else{
           this.status = 'error bajo control'
@@ -90,13 +95,6 @@ export class SidebarComponent implements OnInit {
     )
   }
 
-  //Output
-  @Output() sended = new EventEmitter();
-  //Este método se ejecuta al hacer submit en el form de publicación.
-  sendPublication(event){
-    console.log(event);
-    this.sended.emit({send:'true'});
-  }
 
 
 
