@@ -6,6 +6,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {routing, appRoutingProviders} from "./app.routing";
 import {MomentModule} from "angular2-moment";
 
+//Features Module
+import {MessageModule} from "./message/message.module";
 
 //JQUERY
 
@@ -44,7 +46,8 @@ import { FollowedComponent } from './components/followed/followed.component';
     routing,
     FormsModule,
     HttpClientModule,
-    MomentModule
+    MomentModule,
+    MessageModule
   ],
   providers: [
     appRoutingProviders
