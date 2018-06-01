@@ -10,7 +10,9 @@ import { MomentModule} from "angular2-moment";
 // Rutas
 import {MessageRoutingModule} from "./message-routing.module";
 
-
+// Servicios
+import { UserService} from "../services/user.service";
+import { UserGuardService} from "../services/user.guard.service";
 
 @NgModule({
   imports: [
@@ -31,6 +33,9 @@ import {MessageRoutingModule} from "./message-routing.module";
     ReceivedComponent,
     SendedComponent
   ],
-  providers: []
+  providers: [
+    UserService,
+    UserGuardService
+  ]
 })
 export class MessageModule { }
