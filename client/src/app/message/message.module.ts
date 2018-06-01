@@ -5,6 +5,7 @@ import { MainComponent } from './components/main/main.component';
 import { AddComponent } from './components/add/add.component';
 import { ReceivedComponent } from './components/received/received.component';
 import { SendedComponent } from './components/sended/sended.component';
+import { MomentModule} from "angular2-moment";
 
 // Rutas
 import {MessageRoutingModule} from "./message-routing.module";
@@ -15,7 +16,8 @@ import {MessageRoutingModule} from "./message-routing.module";
   imports: [
     CommonModule,
     FormsModule,
-    MessageRoutingModule
+    MessageRoutingModule,
+    MomentModule
   ],
   declarations: [
     MainComponent,

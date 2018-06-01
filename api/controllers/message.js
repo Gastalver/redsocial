@@ -54,6 +54,7 @@ function getReceivedMessages(req,res){
     var itemsPerPage = 4;
     Message.find({"receiver": userId})
         .populate('emitter','name surname _id nick image') // El 2º parámetro elige campos a popular
+        .sort({created_at: 'desc'})
         .paginate(page,itemsPerPage,(err,messages,total)=>{
             if(err) return res.status(500).send({"message": "Error en la petición"});
             if(!messages) return res.status(404).send({"message": "No hay mensajes"});
@@ -78,6 +79,7 @@ function getEmmitMessages(req,res){
     var itemsPerPage = 4;
     Message.find({"emitter": userId})
         .populate('emitter receiver','name surname _id nick image') // El 2º parámetro elige campos a popular
+        .sort({created_at: 'desc'})
         .paginate(page,itemsPerPage,(err,messages,total)=>{
             if(err) return res.status(500).send({"message": "Error en la petición"});
             if(!messages) return res.status(404).send({"message": "No hay mensajes"});
